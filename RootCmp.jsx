@@ -11,7 +11,7 @@ export function App() {
 
     return (
         <section className="app">
-            <AppHeader />
+            <AppHeader setPage={setPage}/>
 
             <main className="container main-layout">
                 {page === 'home' && <HomePage />}    
