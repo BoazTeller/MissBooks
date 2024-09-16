@@ -33,8 +33,17 @@ export function BookFilter({ filterBy, handleFilterChange }) {
         handleFilterChange(filterByToEdit)
     }
 
-    const { title, maxPrice } = filterByToEdit
-    const isValid = title || maxPrice
+    const { title, maxPrice, minPrice, category, isOnSale } = filterByToEdit
+
+    function isValidFilter() {
+        return (
+            title || 
+            category ||
+            typeof isOnSale === 'boolean' ||
+            (typeof maxPrice === 'number' && maxPrice >= 0) || 
+            (typeof minPrice === 'number' && minPrice >= 0)
+        )
+    }
 
     return (
         <section className="book-filter">
@@ -64,7 +73,44 @@ export function BookFilter({ filterBy, handleFilterChange }) {
                     />
                 </div>
 
-                <button type="submit" disabled={!isValid}>Apply Filter</button>
+                <div>
+                    <label htmlFor="minPrice">Min Price: </label>
+                    <input
+                        type="number"
+                        id="minPrice"
+                        name="minPrice"
+                        value={minPrice || ''}
+                        onChange={handleOnChange}
+                        placeholder="Enter min price"
+                    />
+                </div>
+
+                <div>
+                    <label htmlFor="category">Category: </label>
+                    <select
+                        id="category"
+                        name="category"
+                        value={category}
+                        onChange={handleOnChange}
+                    >
+                        <option value="">Select Category</option>
+                        <option value="Computers">Computers</option>
+                        <option value="Hack">Hack</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label htmlFor="isOnSale">On Sale: </label>
+                    <input
+                        type="checkbox"
+                        id="isOnSale"
+                        name="isOnSale"
+                        checked={isOnSale}
+                        onChange={handleOnChange}
+                    />
+                </div>
+
+                <button type="submit" disabled={!isValidFilter()}>Apply Filter</button>
             </form>
         </section>
     )
