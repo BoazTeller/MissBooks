@@ -1,4 +1,40 @@
-export function BookFilter() {
+const { useState, useEffect } = React
+
+export function BookFilter({ filterBy, onSetFilterBy }) {
+
+   const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
+
+    // Temporarily disabled to prevent filtering on every input change, 
+    // enabling filtering only on submit
+    // useEffect(() => {
+    //     onSetFilterBy(filterByToEdit)
+    // }, [filterByToEdit])
+
+    function handleChange({ target }) {
+        const { name: field, type } = target
+        let { value } = target
+
+        switch (type) {
+            case 'number':
+            case 'range':
+                value = +value
+                break;
+
+            case 'checkbox':
+                value = target.checked
+                break
+        }
+
+        setFilterByToEdit(prevFilter => ({...prevFilter, [field]: value}))
+    }
+
+    function onSubmit(ev) {
+        ev.preventDefault()
+        onSetFilterBy(filterByToEdit)
+    }
+
+    const { title, maxPrice } = filterByToEdit
+    const isValid = title || maxPrice
 
     return (
         <section className="book-filter">
@@ -10,6 +46,8 @@ export function BookFilter() {
                         type="text"
                         id="title"
                         name="title"
+                        value={title}
+                        onChange={handleChange}
                         placeholder="Search by title"
                     />
                 </div>
@@ -20,11 +58,13 @@ export function BookFilter() {
                         type="number"
                         id="maxPrice"
                         name="maxPrice"
+                        value={maxPrice || ''}
+                        onChange={handleChange}
                         placeholder="Enter max price"
                     />
                 </div>
 
-                <button type="submit">Apply Filter</button>
+                <button type="submit" disabled={!isValid}>Apply Filter</button>
             </form>
         </section>
     )
