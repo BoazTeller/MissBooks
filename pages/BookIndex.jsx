@@ -21,24 +21,27 @@ export function BookIndex() {
             })
     }
 
-    function onSetFilterBy(filterBy) {
+    function handleFilterChange(filterBy) {
         setFilterBy({ ...filterBy })
     }
 
     if (!books) return <h1>Loading...</h1>
 
     return (
-        <section>
-            <h2>Book Index</h2>
-            <BookFilter 
-                filterBy={filterBy} 
-                onSetFilterBy={onSetFilterBy} 
-            />
-            <BookList
-                books={books}
-                filterBy={filterBy}
-                onSetFilterBy={onSetFilterBy}
-            />
+        <section className="book-index">
+            {selectedBookId 
+                ? <BookDetails />
+                : <React.Fragment>
+                      <h2>Book Index</h2>
+                      <BookFilter 
+                          filterBy={filterBy} 
+                          handleFilterChange={handleFilterChange} 
+                      />
+                      <BookList
+                          books={books}
+                      />
+                  </React.Fragment>
+            }
         </section>
     )
 }

@@ -1,16 +1,16 @@
 const { useState, useEffect } = React
 
-export function BookFilter({ filterBy, onSetFilterBy }) {
+export function BookFilter({ filterBy, handleFilterChange }) {
 
    const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
 
     // Temporarily disabled to prevent filtering on every input change, 
     // enabling filtering only on submit
     // useEffect(() => {
-    //     onSetFilterBy(filterByToEdit)
+    //     handleFilterChange(filterByToEdit)
     // }, [filterByToEdit])
 
-    function handleChange({ target }) {
+    function handleOnChange({ target }) {
         const { name: field, type } = target
         let { value } = target
 
@@ -30,7 +30,7 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
 
     function onSubmit(ev) {
         ev.preventDefault()
-        onSetFilterBy(filterByToEdit)
+        handleFilterChange(filterByToEdit)
     }
 
     const { title, maxPrice } = filterByToEdit
@@ -47,7 +47,7 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
                         id="title"
                         name="title"
                         value={title}
-                        onChange={handleChange}
+                        onChange={handleOnChange}
                         placeholder="Search by title"
                     />
                 </div>
@@ -59,7 +59,7 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
                         id="maxPrice"
                         name="maxPrice"
                         value={maxPrice || ''}
-                        onChange={handleChange}
+                        onChange={handleOnChange}
                         placeholder="Enter max price"
                     />
                 </div>
