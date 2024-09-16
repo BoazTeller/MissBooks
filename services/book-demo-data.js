@@ -1,5 +1,3 @@
-
-
 const demoBooks = [
     {
         "id": "OXeMG8wNskc",

@@ -1,4 +1,3 @@
-
 export function AppHeader({ setPage }) {
 
     function onSetPage(page) {

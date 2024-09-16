@@ -1,6 +1,3 @@
-
-const { useState, useEffect } = React
-
 export function HomePage() {
     
     return (
