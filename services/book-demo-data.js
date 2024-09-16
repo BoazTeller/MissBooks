@@ -438,6 +438,261 @@ const demoBooks = [
             "currencyCode": "ILS",
             "isOnSale": true
         }
+    },
+    {
+        id: "A1B2C3D4E5F6",
+        title: "A Tale of Two Cities",
+        subtitle: "A gripping tale of revolution and love",
+        authors: ["Charles Dickens"],
+        publishedDate: 1859,
+        description: "A story of the French Revolution and personal sacrifice.",
+        pageCount: 489,
+        categories: ["Historical Fiction"],
+        thumbnail: "http://coding-academy.org/books-photos/21.jpg",
+        language: "en",
+        listPrice: {
+            amount: 95,
+            currencyCode: "USD",
+            isOnSale: false
+        }
+    },
+    {
+        id: "G7H8I9J0K1L2",
+        title: "War and Peace",
+        subtitle: "A sweeping Russian epic",
+        authors: ["Leo Tolstoy"],
+        publishedDate: 1869,
+        description: "A novel that tells the story of five families during the Napoleonic Wars.",
+        pageCount: 1225,
+        categories: ["Classics", "Historical Fiction"],
+        thumbnail: "http://coding-academy.org/books-photos/22.jpg",
+        language: "ru",
+        listPrice: {
+            amount: 130,
+            currencyCode: "EUR",
+            isOnSale: true
+        }
+    },
+    {
+        id: "M3N4O5P6Q7R8",
+        title: "The Great Gatsby",
+        subtitle: "The American dream gone awry",
+        authors: ["F. Scott Fitzgerald"],
+        publishedDate: 1925,
+        description: "The mysterious millionaire Jay Gatsby and his obsession with Daisy Buchanan.",
+        pageCount: 180,
+        categories: ["Classics", "American Fiction"],
+        thumbnail: "http://coding-academy.org/books-photos/23.jpg",
+        language: "en",
+        listPrice: {
+            amount: 45,
+            currencyCode: "USD",
+            isOnSale: false
+        }
+    },
+    {
+        id: "S9T0U1V2W3X4",
+        title: "1984",
+        subtitle: "A dystopian nightmare",
+        authors: ["George Orwell"],
+        publishedDate: 1949,
+        description: "A chilling vision of a totalitarian future society.",
+        pageCount: 328,
+        categories: ["Dystopia", "Political Fiction"],
+        thumbnail: "http://coding-academy.org/books-photos/24.jpg",
+        language: "en",
+        listPrice: {
+            amount: 60,
+            currencyCode: "GBP",
+            isOnSale: true
+        }
+    },
+    {
+        id: "Y5Z6A7B8C9D0",
+        title: "Moby Dick",
+        subtitle: "The whale and the madness",
+        authors: ["Herman Melville"],
+        publishedDate: 1851,
+        description: "Captain Ahab's obsessive quest for revenge against the great white whale.",
+        pageCount: 635,
+        categories: ["Adventure", "Classics"],
+        thumbnail: "http://coding-academy.org/books-photos/25.jpg",
+        language: "en",
+        listPrice: {
+            amount: 80,
+            currencyCode: "USD",
+            isOnSale: false
+        }
+    },
+    {
+        id: "E1F2G3H4I5J6",
+        title: "The Hobbit",
+        subtitle: "A journey to the Lonely Mountain",
+        authors: ["J.R.R. Tolkien"],
+        publishedDate: 1937,
+        description: "Bilbo Baggins' unexpected adventure to recover treasure guarded by a dragon.",
+        pageCount: 310,
+        categories: ["Fantasy", "Adventure"],
+        thumbnail: "http://coding-academy.org/books-photos/26.jpg",
+        language: "en",
+        listPrice: {
+            amount: 72,
+            currencyCode: "USD",
+            isOnSale: true
+        }
+    },
+    {
+        id: "K7L8M9N0O1P2",
+        title: "Pride and Prejudice",
+        subtitle: "The tale of Elizabeth Bennet",
+        authors: ["Jane Austen"],
+        publishedDate: 1813,
+        description: "A witty and romantic story about class and social expectations in England.",
+        pageCount: 432,
+        categories: ["Romance", "Classics"],
+        thumbnail: "http://coding-academy.org/books-photos/27.jpg",
+        language: "en",
+        listPrice: {
+            amount: 55,
+            currencyCode: "USD",
+            isOnSale: false
+        }
+    },
+    {
+        id: "Q3R4S5T6U7V8",
+        title: "Brave New World",
+        subtitle: "The price of stability",
+        authors: ["Aldous Huxley"],
+        publishedDate: 1932,
+        description: "A futuristic society where human freedoms have been exchanged for stability.",
+        pageCount: 268,
+        categories: ["Dystopia", "Science Fiction"],
+        thumbnail: "http://coding-academy.org/books-photos/28.jpg",
+        language: "en",
+        listPrice: {
+            amount: 65,
+            currencyCode: "EUR",
+            isOnSale: true
+        }
+    },
+    {
+        id: "W9X0Y1Z2A3B4",
+        title: "The Catcher in the Rye",
+        subtitle: "Holden Caulfield's odyssey",
+        authors: ["J.D. Salinger"],
+        publishedDate: 1951,
+        description: "The story of a young man who struggles to make sense of life and society.",
+        pageCount: 277,
+        categories: ["Classics", "American Fiction"],
+        thumbnail: "http://coding-academy.org/books-photos/29.jpg",
+        language: "en",
+        listPrice: {
+            amount: 40,
+            currencyCode: "USD",
+            isOnSale: false
+        }
+    },
+    {
+        id: "C5D6E7F8G9H0",
+        title: "To Kill a Mockingbird",
+        subtitle: "Justice and racism in the Deep South",
+        authors: ["Harper Lee"],
+        publishedDate: 1960,
+        description: "A young girl observes the prejudice and legal battles of her father, a lawyer.",
+        pageCount: 281,
+        categories: ["Classics", "American Fiction"],
+        thumbnail: "http://coding-academy.org/books-photos/30.jpg",
+        language: "en",
+        listPrice: {
+            amount: 50,
+            currencyCode: "USD",
+            isOnSale: true
+        }
+    },
+    {
+        id: "I1J2K3L4M5N6",
+        title: "The Alchemist",
+        subtitle: "A fable about following your dreams",
+        authors: ["Paulo Coelho"],
+        publishedDate: 1988,
+        description: "A shepherd's journey to discover the meaning of life and his personal legend.",
+        pageCount: 208,
+        categories: ["Philosophy", "Adventure"],
+        thumbnail: "http://coding-academy.org/books-photos/31.jpg",
+        language: "pt",
+        listPrice: {
+            amount: 75,
+            currencyCode: "USD",
+            isOnSale: false
+        }
+    },
+    {
+        id: "O7P8Q9R0S1T2",
+        title: "Don Quixote",
+        subtitle: "The adventures of a delusional knight",
+        authors: ["Miguel de Cervantes"],
+        publishedDate: 1605,
+        description: "A tale of a man who believes he is a knight and his comedic misadventures.",
+        pageCount: 863,
+        categories: ["Classics", "Satire"],
+        thumbnail: "http://coding-academy.org/books-photos/32.jpg",
+        language: "es",
+        listPrice: {
+            amount: 120,
+            currencyCode: "EUR",
+            isOnSale: true
+        }
+    },
+    {
+        id: "U3V4W5X6Y7Z8",
+        title: "Les Misérables",
+        subtitle: "A saga of redemption",
+        authors: ["Victor Hugo"],
+        publishedDate: 1862,
+        description: "Jean Valjean’s journey through life in post-revolutionary France.",
+        pageCount: 1463,
+        categories: ["Classics", "Historical Fiction"],
+        thumbnail: "http://coding-academy.org/books-photos/33.jpg",
+        language: "fr",
+        listPrice: {
+            amount: 135,
+            currencyCode: "EUR",
+            isOnSale: false
+        }
+    },
+    {
+        id: "A9B0C1D2E3F4",
+        title: "The Divine Comedy",
+        subtitle: "Dante's journey through the afterlife",
+        authors: ["Dante Alighieri"],
+        publishedDate: 1320,
+        description: "A visionary epic about the travels through Hell, Purgatory, and Heaven.",
+        pageCount: 798,
+        categories: ["Classics", "Poetry"],
+        thumbnail: "http://coding-academy.org/books-photos/34.jpg",
+        language: "it",
+        listPrice: {
+            amount: 140,
+            currencyCode: "EUR",
+            isOnSale: true
+        }
+    },
+    {
+        id: "G5H6I7J8K9L0",
+        title: "The Odyssey",
+        subtitle: "An epic Greek journey",
+        authors: ["Homer"],
+        publishedDate: -800,
+        description: "Odysseus's long and perilous journey home after the Trojan War.",
+        pageCount: 408,
+        categories: ["Classics", "Adventure"],
+        thumbnail: "http://coding-academy.org/books-photos/35.jpg",
+        language: "gr",
+        listPrice: {
+            amount: 110,
+            currencyCode: "EUR",
+            isOnSale: false
+        }
     }
 ]
 
