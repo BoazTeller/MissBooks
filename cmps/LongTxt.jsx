@@ -2,6 +2,7 @@
 const { useState } = React
 
 export function LongTxt({ txt, length = 100 }) {
+    
     const [isExpanded, setIsExpanded] = useState(false)
 
     function getDisplayText() {

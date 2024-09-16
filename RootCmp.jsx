@@ -6,12 +6,11 @@ import { AboutUs } from './pages/AboutUs.jsx'
 const { useState } = React
 
 export function App() {
-
     const [page, setPage] = useState('home')
 
     return (
         <section className="app">
-            <AppHeader setPage={setPage}/>
+            <AppHeader setPage={setPage} />
 
             <main className="container main-layout">
                 {page === 'home' && <HomePage />}    
