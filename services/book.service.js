@@ -16,15 +16,7 @@ export const bookService = {
 function query(filterBy = {}) {
     return storageService.query(BOOK_KEY)
         .then(books => {
-            if (filterBy.title) {
-                const regExp = new RegExp(filterBy.title, 'i')
-                books = books.filter(book => regExp.test(book.title))
-            }
-
-            if (filterBy.maxPrice) {
-                books = books.filter(book => book.listPrice.amount <= filterBy.maxPrice)
-            }
-
+            books = _getFilteredBooks(books, filterBy)
             return books
         })
 }
@@ -45,17 +37,38 @@ function save(book) {
     }
 }
 
-function _createBooks() {
-    let books = utilService.loadFromStorage(BOOK_KEY)
-    if (!books || !books.length) {
-        books = getDemoBooks()
-        utilService.saveToStorage(BOOK_KEY, books)
+function _getFilteredBooks(books, filterBy) {
+    if (filterBy.title) {
+        const regExp = new RegExp(filterBy.title, 'i')
+        books = books.filter(book => regExp.test(book.title))
     }
+    if (filterBy.maxPrice) {
+        books = books.filter(book => book.listPrice.amount <= filterBy.maxPrice)
+    }
+    if (filterBy.minPrice) {
+        books = books.filter(book => book.listPrice.amount >= filterBy.minPrice)
+    }
+    if (filterBy.category) {
+        books = books.filter(book => book.categories.includes(filterBy.category))
+    }
+    if (filterBy.isOnSale) {
+        books = books.filter(book => book.listPrice.isOnSale)
+    }
+
+    return books
 }
 
 function getDefaultFilter() {
     return {
         title: '',
         maxPrice: 0
+    }
+}
+
+function _createBooks() {
+    let books = utilService.loadFromStorage(BOOK_KEY)
+    if (!books || !books.length) {
+        books = getDemoBooks()
+        utilService.saveToStorage(BOOK_KEY, books)
     }
 }
