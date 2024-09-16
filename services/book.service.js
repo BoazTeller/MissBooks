@@ -1,6 +1,7 @@
 import { getDemoBooks } from './book-demo-data.js'
 import { utilService } from './util.service.js'
 import { storageService } from './async-storage.service.js'
+import { func } from 'prop-types'
 
 const BOOK_KEY = 'bookDB'
 _createBooks()
@@ -9,7 +10,8 @@ export const bookService = {
     query,
     get,
     remove,
-    save
+    save,
+    getDefaultFilter
 }
 
 function query() {
@@ -37,5 +39,12 @@ function _createBooks() {
     if (!books || !books.length) {
         books = getDemoBooks()
         utilService.saveToStorage(BOOK_KEY, books)
+    }
+}
+
+function getDefaultFilter() {
+    return {
+        title: '',
+        maxPrice: 0
     }
 }
