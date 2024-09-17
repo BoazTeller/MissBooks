@@ -44,35 +44,40 @@ export function BookIndex() {
                 console.log('Had issues with book save:', err)
             })
     }
-
+    
     if (!books) return <h1>Loading...</h1>
-
+    
     return (
         <section className="book-index">
             {selectedBookId
                 ? isEdit
-                      ? <BookEdit
-                            bookId={selectedBookId}
-                            onSaveBook={onSaveBook}
-                            onCancel={() => setIsEdit(false)}
-                        /> 
-                      : <BookDetails 
-                            bookId={selectedBookId}
-                            onBack={() => setSelectedBookId(null)}
-                            onEdit={() => setIsEdit(true)}
-                        />
+                    ? <BookEdit
+                          bookId={selectedBookId}
+                          onSaveBook={onSaveBook}
+                          onCancel={() => setIsEdit(false)}
+                      />
+                    : <BookDetails
+                          bookId={selectedBookId}
+                          onBack={() => setSelectedBookId(null)}
+                          onEdit={() => setIsEdit(true)}
+                      />
                 : <React.Fragment>
                       <h2>Book Index</h2>
-                      <BookFilter 
-                          filterBy={filterBy} 
-                          handleFilterChange={handleFilterChange} 
+                      <BookFilter
+                          filterBy={filterBy}
+                          handleFilterChange={handleFilterChange}
                       />
-                      <BookList
-                          books={books}
-                          onSelectBook={onSelectBook}
-                      />
+                      {books.length 
+                          ? <BookList
+                                books={books}
+                                onSelectBook={onSelectBook}
+                            />
+                          : <h1>No books found...</h1>
+                      }
                   </React.Fragment>
             }
         </section>
     )
 }
+
+
