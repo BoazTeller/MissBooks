@@ -4,7 +4,7 @@ import { BookFilter } from "../cmps/BookFilter.jsx"
 import { BookDetails } from "./BookDetails.jsx"
 import { BookEdit } from "./BookEdit.jsx"
 
-const { useState, useEffect } = React
+const { useState, useEffect, Fragment } = React
 
 export function BookIndex() {
 
@@ -41,11 +41,23 @@ export function BookIndex() {
                 loadBooks()
             })
             .catch(err => {
-                console.log('Had issues with book save:', err)
+                console.error('Had issues with book save:', err)
             })
     }
+
+    function onRemoveBook(bookId) {
+        bookService.remove(bookId)
+            .then(() => {
+                setBooks(prevBooks => 
+                    prevBooks.filter(book => book.id !== bookId)
+                )
+            })
+            .catch(err => {
+                console.error('Had issues with removing book:', err)
+            })
+    }    
     
-    if (!books) return <h1>Loading...</h1>
+    if (!books) return <img src="/assets/img/books-loader.gif" />
     
     return (
         <section className="book-index">
@@ -61,7 +73,7 @@ export function BookIndex() {
                           onBack={() => setSelectedBookId(null)}
                           onEdit={() => setIsEdit(true)}
                       />
-                : <React.Fragment>
+                : <Fragment>
                       <h2>Book Index</h2>
                       <BookFilter
                           filterBy={filterBy}
@@ -71,10 +83,11 @@ export function BookIndex() {
                           ? <BookList
                                 books={books}
                                 onSelectBook={onSelectBook}
+                                onRemoveBook={onRemoveBook}
                             />
                           : <h1>No books found...</h1>
                       }
-                  </React.Fragment>
+                  </Fragment>
             }
         </section>
     )
