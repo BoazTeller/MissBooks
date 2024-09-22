@@ -1,8 +1,4 @@
-export function AppHeader({ setPage }) {
-
-    function onSetPage(page) {
-        setPage(page)
-    }
+export function AppHeader({ onSetPage }) {
 
     return (
         <header className="app-header full main-layout">
@@ -10,9 +6,9 @@ export function AppHeader({ setPage }) {
                 <h1>MissBooks</h1>
 
                 <nav className="app-nav">
-                    <a onClick={() => onSetPage('home')}>Home</a>
-                    <a onClick={() => onSetPage('about')}>About</a>
-                    <a onClick={() => onSetPage('book')}>Books</a>
+                    <a onClick={(ev) => onSetPage(ev, 'home')}>Home</a>
+                    <a onClick={(ev) => onSetPage(ev, 'about')}>About</a>
+                    <a onClick={(ev) => onSetPage(ev, 'book')}>Books</a>
                 </nav>
             </section>
         </header>
