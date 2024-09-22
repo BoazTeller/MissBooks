@@ -5,12 +5,14 @@ const { useState, useEffect } = React
 export function BookDetails({ bookId, onBack, onEdit }) {
 
     const [book, setBook] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         loadBook()
     }, []) 
 
     function loadBook() {
+        setIsLoading(true)
         bookService.get(bookId)
             .then(book => {
                 setBook(book)
@@ -18,9 +20,12 @@ export function BookDetails({ bookId, onBack, onEdit }) {
             .catch(err => {
                 console.error('Had issues loading book details', err)
             })
+            .finally(() => {
+                setIsLoading(false)
+            })
     }
 
-    if (!book) return <h1>Loading book...</h1>
+    if (isLoading) return <h1>Loading book...</h1>
 
     const {
         title, subtitle, authors, publishedDate, description,
