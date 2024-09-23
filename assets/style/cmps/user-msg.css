@@ -1,24 +1,56 @@
 .user-msg {
-    background-color: lightgray;
-    padding: .5em 1em;
+    background-color: #f1f1f1;
+    color: #333;
+    padding: 1em;
     position: fixed;
-    bottom: 0;
+    top: 1em;
     right: 1em;
-    color: white;
-    font-weight: bold;
-    border-radius: 2px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    z-index: 1000;
+    animation: slideInFromTop 0.3s ease-out forwards;
 }
 
 .user-msg.success {
-    background-color: var(--clr1);
+    background-color: #d4edda;
+    color: #155724;
 }
 
 .user-msg.error {
-    background-color: var(--clr2);
+    background-color: #f8d7da;
+    color: #721c24;
 }
 
+.user-msg h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.1em;
+}
 
-.user-msg button{
-    float: right;
-    margin: 1em;
+.user-msg button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5em;
+    margin-left: auto; 
+    color: inherit;
+    font-size: 1.5em;
+    line-height: 1;
+}
+
+.user-msg button:hover {
+    color: #666; 
+}
+
+@keyframes slideInFromTop {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
