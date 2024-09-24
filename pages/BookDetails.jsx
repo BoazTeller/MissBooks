@@ -1,11 +1,17 @@
 import { bookService } from "../services/book.service.js"
+import { AddReview } from "../cmps/AddReview.jsx"
+import { ReviewList } from "../cmps/ReviewList.jsx"
 
 const { useState, useEffect } = React
+const { useParams, useNavigate } = ReactRouter
+const { Link } = ReactRouterDOM
 
-export function BookDetails({ bookId, onBack, onEdit }) {
+export function BookDetails() {
 
+    const { bookId } = useParams()
+    
     const [book, setBook] = useState(null)
-    const [isLoading, setIsLoading] = useState(true)
+    const [isBookLoading, setIsBookLoading] = useState(true)
     const [bookMetrics, setBookMetrics] = useState({
         readingLevel: '',
         vintageStatus: '',
@@ -14,7 +20,7 @@ export function BookDetails({ bookId, onBack, onEdit }) {
 
     useEffect(() => {
         loadBook()
-    }, []) 
+    }, [bookId]) 
 
     useEffect(() => {
         if (!book) return
@@ -29,7 +35,7 @@ export function BookDetails({ bookId, onBack, onEdit }) {
     }, [book])
 
     function loadBook() {
-        setIsLoading(true)
+        setIsBookLoading(true)
         bookService.get(bookId)
             .then(book => {
                 setBook(book)
@@ -38,7 +44,40 @@ export function BookDetails({ bookId, onBack, onEdit }) {
                 console.error('Had issues loading book details', err)
             })
             .finally(() => {
-                setIsLoading(false)
+                setIsBookLoading(false)
+            })
+    }
+
+    function onAddReview(review) {
+        bookService.addReview(bookId, review)
+            .then((savedBook) => {
+                setBook(savedBook)
+                // showSuccessMsg('Review added successfully')
+            })
+            .catch(error => {
+                console.error('Failed to add review:', error)
+            })
+    }
+
+    function onRemoveReview(reviewId) {
+        bookService.removeReview(bookId, reviewId)
+            .then((savedBook) => {
+                setBook(savedBook)
+                // showSuccessMsg('Review removed successfully')
+            })
+            .catch(error => {
+                console.error('Failed to remove review:', error)
+            })
+    }
+
+    function onRemoveReview(reviewId) {
+        bookService.removeReview(bookId, reviewId)
+            .then((savedBook) => {
+                setBook(savedBook)
+                // showSuccessMsg('Review added successfully')
+            })
+            .catch(error => {
+                console.error('Failed to remove review:', error)
             })
     }
 
@@ -65,9 +104,9 @@ export function BookDetails({ bookId, onBack, onEdit }) {
     function getDefaultUrl(ev) {
         ev.target.src = "/assets/img/book-placeholder.jpg"
     }
-
+    
     // Show loading spinner while the book data is being fetched
-    if (isLoading) return <img src="/assets/img/book-loader.gif" />
+    if (isBookLoading) return <img src="/assets/img/book-loader.gif" />
 
     // Destructure book properties for easy access in the JSX
     const {
@@ -96,10 +135,31 @@ export function BookDetails({ bookId, onBack, onEdit }) {
                 <p>Price: {amount} {currencyCode}</p>
                 {isOnSale && <p className="on-sale">On Sale!</p>}
             </div>
+            
+            <div>
+                <ReviewList 
+                    book={book} 
+                    onRemoveReview={onRemoveReview} 
+                />
+            </div>
+
+            <div>
+                <h3>Add A Review</h3>
+                <AddReview onAddReview={onAddReview} />
+            </div>
 
             <div className="action-btns container">
-                <button onClick={onBack}>Back</button>
-                <button onClick={onEdit}>Edit</button>
+                <Link to="/book">
+                    <button>Back</button>
+                </Link>
+
+                <Link to={`/book/${book.prevBookId}`}>
+                    <button>Previous</button>
+                </Link>
+
+                <Link to={`/book/${book.nextBookId}`}>
+                    <button>Next</button>
+                </Link>
             </div>
         </section>
     )
