@@ -1,16 +1,13 @@
 import { bookService } from "../services/book.service.js"
 import { BookList } from "../cmps/BookList.jsx"
 import { BookFilter } from "../cmps/BookFilter.jsx"
-import { BookDetails } from "./BookDetails.jsx"
-import { BookEdit } from "./BookEdit.jsx"
 
-const { useState, useEffect, Fragment } = React
+const { useState, useEffect } = React
+const { Link } = ReactRouterDOM
 
 export function BookIndex() {
 
     const [books, setBooks] = useState(null)
-    const [isEdit, setIsEdit] = useState(false)
-    const [selectedBookId, setSelectedBookId] = useState(null)
     const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
 
     useEffect(() => {
@@ -29,23 +26,10 @@ export function BookIndex() {
         setFilterBy({ ...filterBy })
     }
     
-    function onSelectBook(bookId) {
-        setSelectedBookId(bookId)
-    }
-
-    function onSaveBook(bookToSave) {
-        bookService.save(bookToSave)
-            .then(() => {
-                setIsEdit(false)
-                setSelectedBookId(null)
-                loadBooks()
-            })
-            .catch(err => {
-                console.error('Had issues with book save:', err)
-            })
-    }
-
     function onRemoveBook(bookId) {
+        const isConfirmed = prompt('Are you sure?')
+        if (!isConfirmed) return
+
         bookService.remove(bookId)
             .then(() => {
                 setBooks(prevBooks => 
@@ -56,38 +40,37 @@ export function BookIndex() {
                 console.error('Had issues with removing book:', err)
             })
     }    
+
+    function onAddGoogleBook() {
+        bookService.addGoogleBook(book)
+            .then(addedBook => {
+                console.log(addedBook)
+                // show success msg
+            })
+            .catch(err => {
+                console.error('Had issues with adding book from Google:', err)
+        })
+    }
     
     if (!books) return <img src="/assets/img/books-loader.gif" />
-    
+
+
     return (
         <section className="book-index">
-            {selectedBookId
-                ? isEdit
-                    ? <BookEdit
-                          bookId={selectedBookId}
-                          onSaveBook={onSaveBook}
-                          onCancel={() => setIsEdit(false)}
-                      />
-                    : <BookDetails
-                          bookId={selectedBookId}
-                          onBack={() => setSelectedBookId(null)}
-                          onEdit={() => setIsEdit(true)}
-                      />
-                : <Fragment>
-                      <h2>Book Index</h2>
-                      <BookFilter
-                          filterBy={filterBy}
-                          handleFilterChange={handleFilterChange}
-                      />
-                      {books.length 
-                          ? <BookList
-                                books={books}
-                                onSelectBook={onSelectBook}
-                                onRemoveBook={onRemoveBook}
-                            />
-                          : <h1>No books found...</h1>
-                      }
-                  </Fragment>
+            <BookFilter
+                filterBy={filterBy}
+                handleFilterChange={handleFilterChange}
+            />
+
+            <Link to="/book/edit"><button>Add a new book</button></Link>
+            <Link to="/book/add"><button>Add from Google Books</button></Link>
+            
+            {books.length 
+                ? <BookList
+                    books={books}
+                    onRemoveBook={onRemoveBook}
+                />
+                : <h1>No books found...</h1>
             }
         </section>
     )
