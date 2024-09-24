@@ -11,7 +11,11 @@ export const bookService = {
     remove,
     save,
     addGoogleBook,
-    getDefaultFilter
+    addReview,
+    removeReview,
+    getDefaultFilter,
+    getEmptyBook,
+    getEmptyReview
 }
 
 function query(filterBy = {}) {
@@ -24,6 +28,7 @@ function query(filterBy = {}) {
 
 function get(bookId) {
     return storageService.get(BOOK_KEY, bookId)
+        .then(book => _setNextPrevBookId(book))
 }
 
 function remove(bookId) {
@@ -49,6 +54,33 @@ function addGoogleBook(googleBook) {
 
             const preparedBook = prepareBookData(googleBook)
             return storageService.post(BOOK_KEY, preparedBook)
+        })
+}
+
+function addReview(bookId, review) {
+    return get(bookId)
+        .then(book => {
+            book.reviews = book.reviews || []
+            book.reviews.push(review)
+
+            return save(book)
+        })
+}
+
+function removeReview(bookId, reviewId) {
+    return get(bookId)
+        .then(book => {
+            // Make sure there is a reviews array, initialize array otherwise
+            book.reviews = book.reviews || []
+            const reviewIdx = book.reviews.findIndex(review => review.id === reviewId)
+
+            // Check if the review was found
+            if (reviewIdx === -1) {
+                throw new Error('Review not found')
+            }
+
+            book.reviews.splice(reviewIdx, 1)
+            return save(book)
         })
 }
 
@@ -127,5 +159,13 @@ function getEmptyBook() {
             currencyCode: 'EUR', 
             isOnSale: false
         }
+    }
+}
+
+function getEmptyReview() {
+    return {
+        fullName: '',
+        rating: 1, 
+        readAt: '' 
     }
 }
