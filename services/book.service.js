@@ -120,6 +120,17 @@ function _createBooks() {
     }
 }
 
+function _setNextPrevBookId(book) {
+    return query().then((books) => {
+        const bookIdx = books.findIndex((currentBook) => currentBook.id === book.id)
+        const nextBook = books[bookIdx + 1] ? books[bookIdx + 1] : books[0]
+        const prevBook = books[bookIdx - 1] ? books[bookIdx - 1] : books[books.length - 1]
+        book.nextBookId = nextBook.id
+        book.prevBookId = prevBook.id
+        return book
+    })
+}
+
 function prepareBookData(bookRawData) {
     const { volumeInfo: bookInfo, id } = bookRawData
 
