@@ -1,14 +1,23 @@
 import { bookService } from "../services/book.service.js"
 
 const { useState, useEffect } = React
+const { useParams, useNavigate } = ReactRouter
+const { Link } = ReactRouterDOM
 
-export function BookEdit({ bookId, onSaveBook, onBack }) {
+export function BookEdit() {
+    
+    const { bookId } = useParams()
+    const navigate = useNavigate()
     
     const [bookToEdit, setBookToEdit] = useState(null)
 
     useEffect(() => {
-        loadBook()
-    }, []) 
+        if (bookId) {
+            loadBook()
+        } else {
+            setBookToEdit(bookService.getEmptyBook())
+        }
+    }, [bookId])
 
     function loadBook() {
         bookService.get(bookId)
@@ -20,7 +29,7 @@ export function BookEdit({ bookId, onSaveBook, onBack }) {
             })
     }
 
-    function handleOnChange({ target }) {
+    function handleChange({ target }) {
         const { name: field, type } = target
         let { value } = target
 
@@ -28,7 +37,7 @@ export function BookEdit({ bookId, onSaveBook, onBack }) {
             case 'number':
             case 'range':
                 value = +value
-                break;
+                break
 
             case 'checkbox':
                 value = target.checked
@@ -37,26 +46,35 @@ export function BookEdit({ bookId, onSaveBook, onBack }) {
 
         setBookToEdit(prevBook => {
             if (field.startsWith('listPrice')) {
-                const updatedField = field.split('.')[1]
                 return {
                     ...prevBook,
                     listPrice: {
                         ...prevBook.listPrice,
-                        [updatedField]: value
+                        // listPrice.amount -> amount
+                        [field.replace('listPrice.', '')]: value
                     }
                 }
             }
 
-            return {
-                ...prevBook,
-                [field]: value
-            }
+            return { ...prevBook, [field]: value}
         })
     }
 
     function onSubmit(ev) {
         ev.preventDefault()
-        onSaveBook(bookToEdit)
+        onSaveBook()
+    }
+
+    function onSaveBook() {
+        bookService.save(bookToEdit)
+            .then(() => {
+            })
+            .catch(err => {
+                console.error('Had issues with book save:', err)
+            })
+            .finally(() => {
+                navigate('/book')
+            })
     }
 
     if (!bookToEdit) return <h1>Loading book edit page...</h1>
@@ -64,7 +82,7 @@ export function BookEdit({ bookId, onSaveBook, onBack }) {
     return (
         <section className="book-edit">
             <h2>Edit Book</h2>
-            <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit} className="book-edit-form">
                 <div className="form-group">
                     <label htmlFor="title">Title:</label>
                     <input
@@ -72,11 +90,11 @@ export function BookEdit({ bookId, onSaveBook, onBack }) {
                         id="title"
                         name="title"
                         value={bookToEdit.title}
-                        onChange={handleOnChange}
+                        onChange={handleChange}
                         required
                     />
                 </div>
-
+    
                 <div className="form-group">
                     <label htmlFor="price">Price:</label>
                     <input
@@ -84,22 +102,22 @@ export function BookEdit({ bookId, onSaveBook, onBack }) {
                         id="price"
                         name="listPrice.amount"
                         value={bookToEdit.listPrice.amount}
-                        onChange={handleOnChange}
+                        onChange={handleChange}
                         required
                     />
                 </div>
-
+    
                 <div className="form-group">
                     <label htmlFor="description">Description:</label>
                     <textarea
                         id="description"
                         name="description"
                         value={bookToEdit.description}
-                        onChange={handleOnChange}
+                        onChange={handleChange}
                         required
-                    ></textarea>
+                    />
                 </div>
-
+    
                 <div className="form-group">
                     <label htmlFor="authors">Authors:</label>
                     <input
@@ -107,11 +125,11 @@ export function BookEdit({ bookId, onSaveBook, onBack }) {
                         id="authors"
                         name="authors"
                         value={bookToEdit.authors.join(', ')}
-                        onChange={handleOnChange}
+                        onChange={handleChange}
                         required
                     />
                 </div>
-
+    
                 <div className="form-group">
                     <label htmlFor="publishedDate">Published Date:</label>
                     <input
@@ -119,11 +137,11 @@ export function BookEdit({ bookId, onSaveBook, onBack }) {
                         id="publishedDate"
                         name="publishedDate"
                         value={bookToEdit.publishedDate}
-                        onChange={handleOnChange}
+                        onChange={handleChange}
                         required
                     />
                 </div>
-
+    
                 <div className="form-group">
                     <label htmlFor="categories">Categories:</label>
                     <input
@@ -131,11 +149,11 @@ export function BookEdit({ bookId, onSaveBook, onBack }) {
                         id="categories"
                         name="categories"
                         value={bookToEdit.categories.join(', ')}
-                        onChange={handleOnChange}
+                        onChange={handleChange}
                         required
                     />
                 </div>
-
+    
                 <div className="form-group">
                     <label htmlFor="isOnSale">On Sale:</label>
                     <input
@@ -143,15 +161,18 @@ export function BookEdit({ bookId, onSaveBook, onBack }) {
                         id="isOnSale"
                         name="listPrice.isOnSale"
                         checked={bookToEdit.listPrice.isOnSale}
-                        onChange={handleOnChange} 
-                     />
+                        onChange={handleChange} 
+                    />
                 </div>
-
+    
                 <div className="form-actions">
                     <button type="submit">Save</button>
-                    <button type="button" onClick={onBack}>Back</button>
+
+                    <Link to="/book">
+                        <button>Back</button>
+                    </Link>
                 </div>
             </form>
         </section>
-    )
+    )    
 }

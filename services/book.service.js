@@ -111,3 +111,21 @@ function prepareBookData(bookRawData) {
         }
     }
 }
+
+function getEmptyBook() {
+    return {
+        title: '',
+        subtitle: '',
+        authors: [],
+        publishedDate: new Date().getFullYear(), 
+        pageCount: 0,
+        categories: [],
+        thumbnail: 'https://via.placeholder.com/150', 
+        language: 'en',
+        listPrice: {
+            amount: 0,
+            currencyCode: 'EUR', 
+            isOnSale: false
+        }
+    }
+}
