@@ -10,7 +10,7 @@ export function BookFilter({ filterBy, handleFilterChange }) {
     //     handleFilterChange(filterByToEdit)
     // }, [filterByToEdit])
 
-    function handleOnChange({ target }) {
+    function handleChange({ target }) {
         const { name: field, type } = target
         let { value } = target
 
@@ -56,7 +56,7 @@ export function BookFilter({ filterBy, handleFilterChange }) {
                         id="title"
                         name="title"
                         value={title}
-                        onChange={handleOnChange}
+                        onChange={handleChange}
                         placeholder="Search by title"
                     />
                 </div>
@@ -68,7 +68,7 @@ export function BookFilter({ filterBy, handleFilterChange }) {
                         id="maxPrice"
                         name="maxPrice"
                         value={maxPrice || ''}
-                        onChange={handleOnChange}
+                        onChange={handleChange}
                         placeholder="Enter max price"
                     />
                 </div>
@@ -80,7 +80,7 @@ export function BookFilter({ filterBy, handleFilterChange }) {
                         id="minPrice"
                         name="minPrice"
                         value={minPrice || ''}
-                        onChange={handleOnChange}
+                        onChange={handleChange}
                         placeholder="Enter min price"
                     />
                 </div>
@@ -91,7 +91,7 @@ export function BookFilter({ filterBy, handleFilterChange }) {
                         id="category"
                         name="category"
                         value={category}
-                        onChange={handleOnChange}
+                        onChange={handleChange}
                     >
                         <option value="">Select Category</option>
                         <option value="Computers">Computers</option>
@@ -106,7 +106,7 @@ export function BookFilter({ filterBy, handleFilterChange }) {
                         id="isOnSale"
                         name="isOnSale"
                         checked={isOnSale}
-                        onChange={handleOnChange}
+                        onChange={handleChange}
                     />
                 </div>
 
