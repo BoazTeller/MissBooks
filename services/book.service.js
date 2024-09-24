@@ -10,6 +10,7 @@ export const bookService = {
     get,
     remove,
     save,
+    addGoogleBook,
     getDefaultFilter
 }
 
@@ -35,6 +36,20 @@ function save(book) {
     } else {
         return storageService.post(BOOK_KEY, book)
     }
+}
+
+function addGoogleBook(googleBook) {
+    console.log(googleBook)
+    return query()  
+        .then(books => {
+            const isBookExists = books.some(b => b.id === googleBook.id)
+            if (isBookExists) {
+                throw new Error('Book already exists')
+            }
+
+            const preparedBook = prepareBookData(googleBook)
+            return storageService.post(BOOK_KEY, preparedBook)
+        })
 }
 
 function _getFilteredBooks(books, filterBy) {
@@ -70,5 +85,29 @@ function _createBooks() {
     if (!books || !books.length) {
         books = getDemoBooks()
         utilService.saveToStorage(BOOK_KEY, books)
+    }
+}
+
+function prepareBookData(bookRawData) {
+    const { volumeInfo: bookInfo, id } = bookRawData
+
+    return {
+        id: id || '',
+        title: bookInfo.title || '',
+        subtitle: bookInfo.subtitle || '',
+        authors: bookInfo.authors || [],
+        publishedDate: bookInfo.publishedDate ? 
+            bookInfo.publishedDate.slice(0, 4) : '',
+        description: bookInfo.description || '',
+        pageCount: bookInfo.pageCount || 0,
+        categories: bookInfo.categories || [],
+        thumbnail: bookInfo.imageLinks ? 
+            bookInfo.imageLinks.thumbnail : 'https://via.placeholder.com/150x150',
+        language: bookInfo.language || '',
+        listPrice: {
+            amount: utilService.getRandomIntInclusive(10, 500), 
+            currencyCode: 'USD', 
+            isOnSale: Math.random() < 0.25
+        }
     }
 }
