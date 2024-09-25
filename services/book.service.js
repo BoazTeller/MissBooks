@@ -43,28 +43,15 @@ function save(book) {
     }
 }
 
-function addGoogleBook(googleBook) {
-    console.log(googleBook)
-    return query()  
-        .then(books => {
-            const isBookExists = books.some(b => b.id === googleBook.id)
-            if (isBookExists) {
-                throw new Error('Book already exists')
-            }
-
-            const preparedBook = prepareBookData(googleBook)
-            return storageService.post(BOOK_KEY, preparedBook)
-        })
-}
-
 function addReview(bookId, review) {
     return get(bookId)
         .then(book => {
             book.reviews = book.reviews || []
             book.reviews.push(review)
 
-            return save(book)
+            return book
         })
+        .then(book => save(book))
 }
 
 function removeReview(bookId, reviewId) {
@@ -80,9 +67,25 @@ function removeReview(bookId, reviewId) {
             }
 
             book.reviews.splice(reviewIdx, 1)
-            return save(book)
+            return book
+        })
+        .then(book => save(book))
+}
+
+function addGoogleBook(googleBook) {
+    return query()  
+        .then(books => {
+            const isBookExists = books.some(book => book.id === googleBook.id)
+            if (isBookExists) {
+                throw new Error('Book already exists')
+            }
+
+            const preparedBook = prepareBookData(googleBook)
+            return storageService.post(BOOK_KEY, preparedBook)
         })
 }
+
+///////////////////////////////////////////////////////
 
 function _getFilteredBooks(books, filterBy) {
     if (filterBy.title) {
@@ -101,15 +104,21 @@ function _getFilteredBooks(books, filterBy) {
     if (filterBy.isOnSale) {
         books = books.filter(book => book.listPrice.isOnSale)
     }
+    if (filterBy.pageCount) {
+        books = books.filter(book => book.pageCount <= filterBy.pageCount)
+    }
 
     return books
 }
 
 function getDefaultFilter() {
     return {
-        title: '',
-        maxPrice: 0
-    }
+        title: '',       
+        maxPrice: null,  
+        pagesCount: null,
+        category: '',
+        onSale: false   
+    } 
 }
 
 function _createBooks() {
@@ -122,11 +131,14 @@ function _createBooks() {
 
 function _setNextPrevBookId(book) {
     return query().then((books) => {
-        const bookIdx = books.findIndex((currentBook) => currentBook.id === book.id)
+        const bookIdx = books.findIndex((currBook) => currBook.id === book.id)
+        
         const nextBook = books[bookIdx + 1] ? books[bookIdx + 1] : books[0]
         const prevBook = books[bookIdx - 1] ? books[bookIdx - 1] : books[books.length - 1]
+        
         book.nextBookId = nextBook.id
         book.prevBookId = prevBook.id
+
         return book
     })
 }
@@ -175,6 +187,7 @@ function getEmptyBook() {
 
 function getEmptyReview() {
     return {
+        id: utilService.makeId(),
         fullName: '',
         rating: 1, 
         readAt: '' 
