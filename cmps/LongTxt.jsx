@@ -1,35 +1,31 @@
 
-const { useState } = React
+const { useState, useEffect } = React
 
 export function LongTxt({ txt, length = 100 }) {
-    
+
+    const [displayText, setDisplayText] = useState('')
     const [isExpanded, setIsExpanded] = useState(false)
 
-    function getDisplayText() {
-        if (!txt) return ''
-
+    useEffect(() => {
         if (isExpanded || txt.length <= length) {
-            return txt
+            setDisplayText(txt)
         } else {
-            return txt.substring(0, 100) + '...'
+            setDisplayText(txt.substring(0, length))
         }
-    }
+    }, [isExpanded, txt, length])
 
     function onToggleExpansion() {
         setIsExpanded(prevIsExpanded => !prevIsExpanded)
     }
 
     return (
-        <section className="long-text">
+        <section className="long-txt">
             <p>
-                {getDisplayText()}
-                {txt && txt.length > length && (
-                    <button onClick={onToggleExpansion}>
-                        {isExpanded ? 'Less...' : 'More...'}
-                    </button>
+                {displayText}
+                {txt.length > length && (
+                    <button onClick={onToggleExpansion}>...</button>
                 )}
             </p>
-
         </section>
     )
 }
