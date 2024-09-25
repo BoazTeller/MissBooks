@@ -1,4 +1,5 @@
 import { bookService } from "../services/book.service.js"
+import { showSuccessMsg, showErrorMsg } from "../services/event-bus.service.js"
 
 const { useState, useEffect } = React
 const { useParams, useNavigate } = ReactRouter
@@ -26,6 +27,7 @@ export function BookEdit() {
             })
             .catch(err => {
                 console.error('Had issues loading book edit', err)
+                showErrorMsg('Unable to load the book for editing.')
             })
     }
 
@@ -45,6 +47,15 @@ export function BookEdit() {
         }
 
         setBookToEdit(prevBook => {
+            //TODO: Find more elegant solutions for authors/listPrice editing
+            if (field === 'authors') {
+                return { 
+                    ...prevBook, 
+                    authors: value.split(',')
+                                  .map(author => author.trim()) 
+                }
+            }
+
             if (field.startsWith('listPrice')) {
                 return {
                     ...prevBook,
@@ -56,11 +67,12 @@ export function BookEdit() {
                 }
             }
 
+            // If field isn't authors or listPrice then life is easy
             return { ...prevBook, [field]: value}
         })
     }
 
-    function onSubmit(ev) {
+    function onSubmitEdit(ev) {
         ev.preventDefault()
         onSaveBook()
     }
@@ -68,12 +80,12 @@ export function BookEdit() {
     function onSaveBook() {
         bookService.save(bookToEdit)
             .then(() => {
+                showSuccessMsg('Book saved successfully!')
+                navigate('/book')
             })
             .catch(err => {
                 console.error('Had issues with book save:', err)
-            })
-            .finally(() => {
-                navigate('/book')
+                showErrorMsg('Failed to save the book.')
             })
     }
 
@@ -82,7 +94,7 @@ export function BookEdit() {
     return (
         <section className="book-edit">
             <h2>Edit Book</h2>
-            <form onSubmit={onSubmit} className="book-edit-form">
+            <form onSubmit={onSubmitEdit} className="book-edit-form">
                 <div className="form-group">
                     <label htmlFor="title">Title:</label>
                     <input
@@ -92,6 +104,8 @@ export function BookEdit() {
                         value={bookToEdit.title}
                         onChange={handleChange}
                         required
+                        pattern="^[A-Za-z0-9\s\-'\:]+$"
+                        title="Title must contain letters, numbers, or these special characters: - ' :" 
                     />
                 </div>
     
@@ -101,9 +115,11 @@ export function BookEdit() {
                         type="number"
                         id="price"
                         name="listPrice.amount"
-                        value={bookToEdit.listPrice.amount}
+                        value={bookToEdit.listPrice.amount || ''} 
                         onChange={handleChange}
                         required
+                        min="1"
+                        title="Price must be above 0"
                     />
                 </div>
     
@@ -124,9 +140,12 @@ export function BookEdit() {
                         type="text"
                         id="authors"
                         name="authors"
-                        value={bookToEdit.authors.join(', ')}
+                        value={Array.isArray(bookToEdit.authors) ? 
+                            bookToEdit.authors.join(', ') : ''}
                         onChange={handleChange}
                         required
+                        pattern="^[A-Za-z\s,]+$" 
+                        title="Authors must contain letters and spaces, separated by commas"
                     />
                 </div>
     
@@ -139,20 +158,26 @@ export function BookEdit() {
                         value={bookToEdit.publishedDate}
                         onChange={handleChange}
                         required
+                        min="1450"
+                        max={new Date().getFullYear()}
+                        title={`Published date must be between 1450 and ${new Date().getFullYear()}`}
                     />
                 </div>
     
-                <div className="form-group">
+                {/* <div className="form-group">
                     <label htmlFor="categories">Categories:</label>
                     <input
                         type="text"
                         id="categories"
                         name="categories"
-                        value={bookToEdit.categories.join(', ')}
+                        value={Array.isArray(bookToEdit.categories) ? 
+                            bookToEdit.categories.join(', ') : ''}
                         onChange={handleChange}
                         required
+                        pattern="^[A-Za-z\s,]+$"
+                        title="Categories must contain letters and spaces, separated by commas"
                     />
-                </div>
+                </div> */}
     
                 <div className="form-group">
                     <label htmlFor="isOnSale">On Sale:</label>
