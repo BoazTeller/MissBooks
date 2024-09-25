@@ -1,13 +1,22 @@
-* {
-  box-sizing: border-box;
+*,
+::before,
+::after {
+    box-sizing: border-box;
 }
 
 html {
+  font-family: 'MadimiOne', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+
+  color: #fff;
+  background-color: #22252c;
 }
 
 body {
+
   margin: 0;
-  color: var(--gray3);
+  /* color: var(--gray3); */
 }
 
 h1,
@@ -16,12 +25,20 @@ h3,
 h4,
 h5,
 h6 {
-  margin: .5em 0 .5em;
-  font-family: 'Edu VIC WA NT Beginner', cursive;
+  /* margin: .5em 0 .5em; */
+  margin: 0;
+  text-wrap: balance;
+  /* font-family: 'Edu VIC WA NT Beginner', cursive; */
 }
 
 p {
   margin: 0 0 1em;
+  text-wrap: pretty;
+}
+
+ul, ol {
+  padding: 0;
+  list-style: none;
 }
 
 a {
@@ -29,13 +46,20 @@ a {
   color: unset;
 }
 
+.img-loader {
+  margin: 0 auto;
+}
 
+.swal2-popup {
+  background-color: #333; 
+}
 
 /* Dont stretch my Media */
 img,
 embed,
 video,
 object {
+  display: block;
   max-width: 100%
 }
 
@@ -43,3 +67,4 @@ object {
 .debug * {
   outline: 1px solid gold
 }
+
