@@ -1,0 +1,28 @@
+.book-index .add-book-btn-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+
+    background-color: #383b42;
+    border-radius: 8px;
+}
+
+.book-index .btn-cta {
+    padding: 10px 20px;
+    border-radius: 5px;
+
+    font-size: 1em;
+    font-weight: bold;
+    text-transform: uppercase;
+
+    background-color: #50597B;
+    color: #FFF;
+
+    transition: background-color 0.3s, 
+                transform 0.2s;
+}
+
+.book-index .btn-cta:is(:hover, :focus) {
+    background-color: #6772E5;
+    transform: translateY(-3px);
+}
