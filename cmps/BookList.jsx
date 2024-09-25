@@ -4,6 +4,11 @@ const { Link } = ReactRouterDOM
 
 export function BookList({ books, onRemoveBook }) {
 
+    if (!books || books.length === 0) {
+        return <h1>No books found...</h1>
+    }
+
+    //TODO: Refactor to better looking cta btn layout
     return (
         <ul className="book-list container">
             {books.map((book) =>
