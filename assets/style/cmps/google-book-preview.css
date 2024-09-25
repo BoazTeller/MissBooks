@@ -1,0 +1,26 @@
+.google-book-preview .btn-add-from-google {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; 
+    padding: 0;
+
+    font-size: 24px;
+    color: #FFF;
+    background-color: #50597B;
+
+    transition: background-color 0.3s ease, 
+                transform 0.3s ease,
+                box-shadow 0.3s ease; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.google-book-preview .btn-add-from-google:is(:hover, :focus) {
+    background-color: #6772E5; 
+    transform: scale(1.1); 
+}
+
+.google-book-preview .btn-add-from-google:active {
+    background-color: #556CD6; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    transform: scale(0.95); 
+}

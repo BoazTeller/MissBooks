@@ -1,0 +1,22 @@
+.book-add {
+    text-align: center;
+}
+
+.book-add h2 {
+    margin-block-start: 50px;
+    margin-block-end: 15px;
+    font-size: 4em;
+}
+
+.book-add input[type="text"] {
+    width: 100%;
+    max-width: 541px;
+    height: 58px;
+    padding-inline-start: 3.125em;
+    border-radius: 29px;
+
+    font-size: 21px;
+    color: #fefefe;
+
+    background-color: #22252c;
+}

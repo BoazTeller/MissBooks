@@ -1,10 +1,11 @@
 export function GoogleBookPreview({ bookRawData, onAddGoogleBook }) {
+
     const { volumeInfo: bookInfo } = bookRawData
-    // {bookInfo.authors.join(', ')}
+    
     return (
         <article className="google-book-preview">
             {bookInfo.title}
-            <button onClick={() => onAddGoogleBook(bookRawData)}>Add to Library</button>
+            <button className="btn-add-from-google" onClick={() => onAddGoogleBook(bookRawData)}>+</button>
         </article>
     )
 }
