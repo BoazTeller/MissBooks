@@ -1,14 +1,14 @@
+import { showErrorMsg } from "../services/event-bus.service.js"
+
 const { useState, useEffect } = React
 
 export function BookFilter({ filterBy, handleFilterChange }) {
 
    const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
 
-    // Temporarily disabled to prevent filtering on every input change, 
-    // enabling filtering only on submit
-    // useEffect(() => {
-    //     handleFilterChange(filterByToEdit)
-    // }, [filterByToEdit])
+    useEffect(() => {
+        handleFilterChange(filterByToEdit)
+    }, [filterByToEdit])
 
     function handleChange({ target }) {
         const { name: field, type } = target
@@ -18,7 +18,7 @@ export function BookFilter({ filterBy, handleFilterChange }) {
             case 'number':
             case 'range':
                 value = +value
-                break;
+                break
 
             case 'checkbox':
                 value = target.checked
@@ -30,20 +30,26 @@ export function BookFilter({ filterBy, handleFilterChange }) {
 
     function onSubmit(ev) {
         ev.preventDefault()
+
+        if (!isValidFilter) {
+            return showErrorMsg('Please fill in at least one search criteria.')
+        }
+
         handleFilterChange(filterByToEdit)
     }
 
-    const { title, maxPrice, minPrice, category, isOnSale } = filterByToEdit
+    const { title, maxPrice, minPrice, category, pageCount, isOnSale } = filterByToEdit
 
     function isValidFilter() {
         return (
-            title || 
-            category ||
-            typeof isOnSale === 'boolean' ||
-            (typeof maxPrice === 'number' && maxPrice >= 0) || 
-            (typeof minPrice === 'number' && minPrice >= 0)
+            !!title || 
+            !!category || 
+            isOnSale || 
+            maxPrice > 0 || 
+            minPrice > 0 || 
+            pageCount > 0
         )
-    }
+    }    
 
     return (
         <section className="book-filter">
@@ -70,6 +76,7 @@ export function BookFilter({ filterBy, handleFilterChange }) {
                         value={maxPrice || ''}
                         onChange={handleChange}
                         placeholder="Enter max price"
+                        min="1"
                     />
                 </div>
 
@@ -82,10 +89,26 @@ export function BookFilter({ filterBy, handleFilterChange }) {
                         value={minPrice || ''}
                         onChange={handleChange}
                         placeholder="Enter min price"
+                        min="1"
                     />
                 </div>
 
                 <div>
+                    <label htmlFor="minPrice">Max Page Count: </label>
+                    <input
+                        type="number"
+                        id="pageCount"
+                        name="pageCount"
+                        value={pageCount || ''}
+                        onChange={handleChange}
+                        placeholder="Enter max page count"
+                        min="0"
+                    />
+                </div>
+
+                {/* Temporarily disabled */}
+                {/* Will be enabled after more interesting book genres will be added */}
+                {/* <div>
                     <label htmlFor="category">Category: </label>
                     <select
                         id="category"
@@ -97,7 +120,7 @@ export function BookFilter({ filterBy, handleFilterChange }) {
                         <option value="Computers">Computers</option>
                         <option value="Hack">Hack</option>
                     </select>
-                </div>
+                </div> */}
 
                 <div>
                     <label htmlFor="isOnSale">On Sale: </label>
@@ -110,7 +133,8 @@ export function BookFilter({ filterBy, handleFilterChange }) {
                     />
                 </div>
 
-                <button type="submit" disabled={!isValidFilter()}>Apply Filter</button>
+                {/* Temporarily disabled for easier user storage search */}
+                {/* <button type="submit" disabled={!isValidFilter()}>Apply Filter</button> */}
             </form>
         </section>
     )
