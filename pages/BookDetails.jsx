@@ -1,13 +1,17 @@
 import { bookService } from "../services/book.service.js"
+import { showSuccessMsg, showErrorMsg } from "../services/event-bus.service.js"
+import Swal from "../lib/sweetalert2.all.js"
+
 import { AddReview } from "../cmps/AddReview.jsx"
 import { ReviewList } from "../cmps/ReviewList.jsx"
+import { LongTxt } from "../cmps/LongTxt.jsx"
 
 const { useState, useEffect } = React
-const { useParams, useNavigate } = ReactRouter
+const { useParams } = ReactRouter
 const { Link } = ReactRouterDOM
 
 export function BookDetails() {
-
+    
     const { bookId } = useParams()
     
     const [book, setBook] = useState(null)
@@ -42,6 +46,7 @@ export function BookDetails() {
             })
             .catch(err => {
                 console.error('Had issues loading book details', err)
+                showErrorMsg('Book not found.')
             })
             .finally(() => {
                 setIsBookLoading(false)
@@ -52,35 +57,32 @@ export function BookDetails() {
         bookService.addReview(bookId, review)
             .then((savedBook) => {
                 setBook(savedBook)
-                // showSuccessMsg('Review added successfully')
+                showSuccessMsg('Review added!')
             })
             .catch(error => {
                 console.error('Failed to add review:', error)
+                showErrorMsg('Failed to add review.')
             })
     }
 
     function onRemoveReview(reviewId) {
-        bookService.removeReview(bookId, reviewId)
-            .then((savedBook) => {
-                setBook(savedBook)
-                // showSuccessMsg('Review removed successfully')
-            })
-            .catch(error => {
-                console.error('Failed to remove review:', error)
-            })
-    }
-
-    function onRemoveReview(reviewId) {
-        bookService.removeReview(bookId, reviewId)
-            .then((savedBook) => {
-                setBook(savedBook)
-                // showSuccessMsg('Review added successfully')
-            })
-            .catch(error => {
-                console.error('Failed to remove review:', error)
+        Swal.fire(getSwalOpts())
+            .then((result) => {
+                if (result.isConfirmed) {
+                    bookService.removeReview(bookId, reviewId)
+                        .then((savedBook) => {
+                            setBook(savedBook)
+                            showSuccessMsg('Review removed!')
+                        })
+                        .catch(error => {
+                            console.error('Failed to remove review:', error)
+                            showErrorMsg('Failed to remove review.')
+                        })
+                }
             })
     }
 
+    
     function getReadingLevel(pageCount) {
         if (pageCount > 500) return 'Serious Reading'
         else if (pageCount > 200) return 'Decent Reading'
@@ -105,8 +107,24 @@ export function BookDetails() {
         ev.target.src = "/assets/img/book-placeholder.jpg"
     }
     
+    //TODO: Refactor -> find more elegant solution
+    function getSwalOpts() {
+        return {
+            text: 'Do you want to remove this review?',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            icon: null,  
+            title: '',
+            width: '300px',
+            theme: 'dark'
+        }
+    }
+
     // Show loading spinner while the book data is being fetched
-    if (isBookLoading) return <img src="/assets/img/book-loader.gif" />
+    if (isBookLoading) return <img className="img-loader" src="/assets/img/book-loader.gif" />
 
     // Destructure book properties for easy access in the JSX
     const {
@@ -124,26 +142,24 @@ export function BookDetails() {
             </div>
 
             <div className="book-info">
-                <p>Authors: {authors.join(', ')}</p>
-                <p>Published: {publishedDate} {bookMetrics.vintageStatus}</p>
-                <p>Page Count: {pageCount} {bookMetrics.readingLevel}</p>
-                <p>Categories: {categories.join(', ')}</p>
-                <p>Description: {description}</p>
+                <p><span>Authors:</span> {authors.join(', ')}</p>
+                <p><span>Page Count:</span> {pageCount} {bookMetrics.readingLevel && `(${bookMetrics.readingLevel})`} </p>
+                <p><span>Categories:</span> {categories.join(', ')}</p>
+                <p><span>Description:</span> <LongTxt txt={description} /></p>
             </div>
 
             <div className={`book-price ${bookMetrics.priceClass}`}>
-                <p>Price: {amount} {currencyCode}</p>
-                {isOnSale && <p className="on-sale">On Sale!</p>}
+                <p>Price: {amount} {currencyCode} {isOnSale && <span className="on-sale">On Sale!</span>}</p>
             </div>
             
-            <div>
+            <div className="review-list-container">
                 <ReviewList 
                     book={book} 
                     onRemoveReview={onRemoveReview} 
                 />
             </div>
 
-            <div>
+            <div className="add-review-container">
                 <h3>Add A Review</h3>
                 <AddReview onAddReview={onAddReview} />
             </div>
