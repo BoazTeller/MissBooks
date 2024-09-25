@@ -1,6 +1,7 @@
 /* Setup */
 @import 'setup/vars.css';
 @import 'setup/typography.css';
+@import 'setup/mq.css';
 
 /* Base */
 @import 'base/base.css';
@@ -10,10 +11,28 @@
 
 /* Components */
 @import 'cmps/app-header.css';
-@import 'cmps/book-details.css';
+@import 'cmps/app-nav.css';
+@import 'cmps/home.css';
 @import 'cmps/about-us.css';
-@import 'cmps/about-team.css';
 @import 'cmps/about-goal.css';
+@import 'cmps/about-team.css';
+@import 'cmps/book-index.css';
+@import 'cmps/book-add.css';
+@import 'cmps/google-book-preview.css';
+@import 'cmps/book-edit.css';
+@import 'cmps/book-filter.css';
+@import 'cmps/book-list3.css';
+@import 'cmps/book-details.css';
+@import 'cmps/long-txt.css';
 @import 'cmps/user-msg.css';
 @import 'cmps/app-loader.css';
 @import 'cmps/not-found.css';
+
+
+
+
+
+
+
+
+
