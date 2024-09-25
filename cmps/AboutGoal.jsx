@@ -1,7 +1,7 @@
 export function AboutGoal() {
     
     return (
-        <section id="about-goal">
+        <section className="about-goal">
             <h2>Our Goals</h2>
             <p>Learn about our mission and values.</p>
             

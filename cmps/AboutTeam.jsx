@@ -1,17 +1,17 @@
 export function AboutTeam() {
   
   const teamMembers = [
-      {
-        name: "John Doe",
-        title: "Founder and CEO",
-        description: "A passionate leader with a vision for Miss Books.",
-      },
-      {
-        name: "Jane Smith",
-        title: "Head of Marketing",
-        description:
-          "Leads marketing strategies to bring Miss Books to a wider audience.",
-      },
+      // {
+      //   name: "John Doe",
+      //   title: "Founder and CEO",
+      //   description: "A passionate leader with a vision for Miss Books.",
+      // },
+      // {
+      //   name: "Jane Smith",
+      //   title: "Head of Marketing",
+      //   description:
+      //     "Leads marketing strategies to bring Miss Books to a wider audience.",
+      // },
       {
         name: "Boaz Teller",
         title: "Just another wannabe Frontend Developer",
@@ -21,14 +21,13 @@ export function AboutTeam() {
   ]
 
   return (
-      <section id="about-team">
+      <section className="about-team">
           <h2>Our Team</h2>
           <p>Meet the dedicated team behind Miss Books.</p>
 
           <ul>
               {teamMembers.map((member) => (
                   <li key={member.name}>
-                      <img src="images/team-member1.jpg" alt="Image of Team Member" />
                       <h3>{member.name}</h3>
                       <p>{member.title}</p>
                       <p>{member.description}</p>
