@@ -1,42 +1,44 @@
-#about-us {
-    padding: 5rem 0;
+.about-us {
+    /* padding: 5rem 0; */
     text-align: center;
 }
 
-.about-image {
-    margin: 2rem auto;
-    width: 50%;
-    max-width: 500px;
+.about-us h2.title {
+    margin-block-end: 0.5em;
+}
+.about-us .about-values {
+    margin-top: 1.5em;
 }
 
-.about-values {
-    margin-top: 3rem;
+.about-us .about-values h3 {
+    margin-block-end: 0.5em;
+    /* margin-bottom: 1rem; */
 }
 
-.about-values h3 {
-    margin-bottom: 1rem;
-}
-
-.about-values ul {
-    list-style: none;
-    padding: 0;
+.about-us .about-values ul {
+    display: inline-block; 
+    list-style: disc; 
     margin: 0;
+    margin-block-end: 1rem;
+    padding-left: 60px; 
 }
 
-.about-values li {
-    margin-bottom: 1rem;
+.about-us .about-values li {
+    text-align: left;
+    margin-bottom: 1em;
 }
 
-.about-links {
+.about-us .about-links {
     display: flex;
     justify-content: center;
-    margin-top: 3rem;
+    margin-block-end: 1rem;
 }
 
 .about-links a,
 .about-links a:visited {
     text-decoration: none;
-    color: #333;
+    /* color: #333; */
+    color: #d3c0c0;
     padding: 0.5rem 1rem;
     border: 1px solid #ccc;
     margin-right: 1rem;
@@ -44,4 +46,8 @@
 
 .about-links a:hover {
     background-color: #eee;
-}
+    color: black;
+} 
+
+
+
