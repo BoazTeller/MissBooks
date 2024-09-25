@@ -1,7 +1,20 @@
 .app-header {
-  background-color: var(--clr1);
-  color: var(--clr1bg);
-  padding: 1em;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  
+  height: 70px;
+  border-radius: 2.25em;
+  
+  margin: 0;
+  margin-inline: 16px;
+  background-image: linear-gradient(-86deg, #2e0057 0%, #3b0066 50%, #4a0072 100%);
+}
+
+.app-header .logo {
+  font-size: 42px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 @media(max-width: 720px) {
