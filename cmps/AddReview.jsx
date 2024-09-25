@@ -2,6 +2,7 @@ import { bookService } from '../services/book.service.js'
 
 const { useState } = React
 
+// TODO: Refactor as Modal overlay 
 export function AddReview({ onAddReview }) {
 
     const [review, setReview] = useState(bookService.getEmptyReview())
@@ -17,18 +18,16 @@ export function AddReview({ onAddReview }) {
                 break
 
             case 'date':
-                value = new Date(value).toLocaleDateString('en-GB')
+                // value = new Date(value).toLocaleDateString()
                 break
         }
 
         setReview(prevReview => ({ ...prevReview, [field]: value }))
     }
 
-    function onSubmit(ev) {
+    function onSubmitReview(ev) {
         ev.preventDefault()
-
-        // Add validity checks
-
+        // TODO: Refactor with custom validity func instead of using pattern/disabled button
         onAddReview(review)
     }
 
@@ -41,7 +40,7 @@ export function AddReview({ onAddReview }) {
     }
 
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmitReview}>
             <label htmlFor="fullName">Full Name:</label>
             <input
                 type="text"
@@ -50,6 +49,10 @@ export function AddReview({ onAddReview }) {
                 value={review.fullName}
                 onChange={handleChange}
                 placeholder="Enter full name"
+                maxLength={50}
+                required
+                pattern="[A-Za-z\s]+"
+                title="Please enter a valid name (letters only)."
             />
 
             <label htmlFor="rating">Rating:</label>
@@ -58,21 +61,21 @@ export function AddReview({ onAddReview }) {
                 name="rating"
                 value={review.rating} 
                 onChange={handleChange}
+                required 
             >
                 {generateStarOptions()}
             </select>
             
-
             <label htmlFor="readAt">Read on:</label>
             <input
                 type="date"
                 id="readAt"
                 name="readAt"
-                value={review.readAt}
+                value={review.readAt || ''}
                 onChange={handleChange}
             />
 
-            <button type="submit">Submit Review</button>
+            <button type="submit" disabled={!review.readAt}>Submit Review</button>
         </form>
     )
 }
