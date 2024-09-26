@@ -124,7 +124,7 @@ export function BookDetails() {
     }
 
     // Show loading spinner while the book data is being fetched
-    if (isBookLoading) return <img className="img-loader" src="/assets/img/book-loader.gif" />
+    if (isBookLoading) return <img className="img-loader" src="../assets/img/book-loader.gif" />
 
     // Destructure book properties for easy access in the JSX
     const {

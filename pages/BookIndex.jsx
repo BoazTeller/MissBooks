@@ -64,7 +64,7 @@ export function BookIndex() {
         }
     }
 
-    if (!books) return <img className="img-loader" src="/assets/img/books-loader.gif" />
+    if (!books) return <img className="img-loader" src="../assets/img/books-loader.gif" />
 
     return (
         <section className="book-index">
